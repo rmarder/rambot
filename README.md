@@ -77,9 +77,18 @@ This also means, if you define an action helper that runs for a very long time, 
 
 To ensure this situation doesn't happen by accident, you should use something such as timeout(1) from GNU coreutils to run the action helpers.
 
+You can reconfigure the action helpers while the bot is running, you don't need to restart it. RamBot will read and parse rambot.conf every single time an action is requested.
+
 Encrypted IRC
 -------------
 This bot does not handle encrypted connections and probably never will.
 If you need ssl/tls use a simple proxy, such as socat
 
 socat TCP-LISTEN:6667,fork,reuseaddr OPENSSL:remote-server:7000,verify=0
+
+Daemonizing RamBot
+--------------
+echo 'screen -d -m /home/rambot/rambot.sh' >> /etc/rc.local
+See rambot.sh for an example of how this could be done.
+
+Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So Having a helper script to automatically restart RamBot when that happens is very useful.
