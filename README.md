@@ -1,4 +1,4 @@
-RamBot - a simple modular irc bot written in C
+RamBot - A Simple Modular Scriptable IRC Bot
 ----------------------------------------------
 
 Build Instructions
