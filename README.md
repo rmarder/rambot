@@ -98,7 +98,7 @@ socat TCP-LISTEN:6667,fork,reuseaddr OPENSSL:remote-server:7000,verify=0
 
 Daemonizing RamBot
 --------------
-echo 'screen -d -m /home/rambot/rambot.sh' >> /etc/rc.local
-See rambot.sh for an example of how this could be done.
+echo '/usr/bin/sudo -u rambot screen -d -m /home/rambot/rambot.sh' >> /etc/rc.local
+See rambot.sh for more information.
 
 Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So Having a helper script to automatically restart RamBot when that happens is very useful.
