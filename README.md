@@ -6,7 +6,7 @@ Build Instructions
 1) download this repository.
 2) ensure you have a working C99 compiler, such as gcc
 3) ensure you have POSIX - I have only tested this on Linux but we absolutely require a POSIX OS and this should work fine on BSD or other Unix too.
-4) execute make
+4) execute "make" - RamBot itself has no external library dependencies at all.
 5) configure the bot with rambot.conf
 6) run "rambotc" without any arguments - it should connect to an irc server, authenticate against NickServ, and join the channel you configured.
 7) configure your action helpers to make the bot useful.
