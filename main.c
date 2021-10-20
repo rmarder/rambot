@@ -335,17 +335,11 @@ int main()
 
 	sock = init_connection(config_host, atoi(config_port));
 
-	//char *hello = "HEAD / HTTP/1.0\r\nHost: www.example.com\r\n\r\n";
-	//send(sock, hello, strlen(hello), 0);
-	//printf("Hello message sent\n");
-
 	loop = 0;
 	// enter the main program loop
 	while(1)
 	{
 		printf("LOOP: [%lu]\n", loop);
-
-		//if(loop == 60) { break; } // cut ourselves off during development
 
 		if(loop < 20)
 		{
