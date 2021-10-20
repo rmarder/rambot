@@ -66,6 +66,7 @@ You should review each actions/ helper code file, most of them are simple shell 
 How the bot executes the action helper commands
 -------------------------
 The bot will run: ACTION_cmd 'usernick' 'channel' 'arguments'
+
 For example, that means if someone types ".google my search query" into the irc chat, the bot will execute:
 
 ACTION_google 'usernick' 'channel' 'my search query'
