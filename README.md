@@ -71,6 +71,12 @@ The bot expects the command to return status 1 if the response should output int
 The bot expects the command to return status 2 if the response should output directly to the user that made the request.
 All other exit status codes will cause the bot to completely discard and ignore the command results.
 
+Important Note:
+RamBot is a single threaded program. That means, the bot will only handle one request at a time.
+This also means, if you define an action helper that runs for a very long time, RamBot will not respond to any other commands during that time.
+
+To ensure this situation doesn't happen by accident, you should use something such as timeout(1) from GNU coreutils to run the action helpers.
+
 Encrypted IRC
 -------------
 This bot does not handle encrypted connections and probably never will.
