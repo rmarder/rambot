@@ -14,14 +14,6 @@
  * limitations under the License.
 */
 
-// this library conforms to ISO/IEC 9899:1999 (C99) and IEEE Std 1003.1-2008 (POSIX.1).
-// primary development happened on Ubuntu GNU/Linux 20.04
-// if you run this somewhere else, good luck. YMMV.
-
-// the network stuff is not encrypted and probably never will be.
-// if you need ssl/tls use a simple proxy, such as socat
-// socat TCP-LISTEN:6667,fork,reuseaddr OPENSSL:remote-server:7000,verify=0
-
 // this will print a lot of debug to stderr. set DEBUG 0 for release.
 #define DEBUG 0
 #define debugf(fmt, ...) do { if(DEBUG) fprintf(stderr, "DEBUG %s:%d:%s(): " fmt, __FILE__, __LINE__, __func__, __VA_ARGS__); } while(0)
