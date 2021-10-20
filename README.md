@@ -9,7 +9,8 @@ Build Instructions
 4) execute "make" - RamBot itself has no external library dependencies at all.
 5) configure the bot with rambot.conf
 6) run "rambotc" without any arguments - it should connect to an irc server, authenticate against NickServ, and join the channel you configured.
-7) configure your action helpers to make the bot useful.
+7) test the builtin action by typing ".say hello world" - the bot should say "hello world" into the irc channel.
+8) configure your action helpers to make the bot do useful things!
 
 NOTE: For security reasons I would strongly suggest you setup this bot with it's own system user account. I use /home/rambot
 
