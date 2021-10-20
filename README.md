@@ -54,8 +54,25 @@ You should review each actions/ helper code file, most of them are simple shell 
 9) help feature
 .help - returns this help documentation via PM.
 
+How the bot executes the action helper commands
+-------------------------
+The bot will run: ACTION_cmd 'usernick' 'channel' 'arguments'
+For example, that means if someone types ".google my search query" into the irc chat, the bot will execute:
+
+ACTION_google 'usernick' 'channel' 'my search query'
+
+If there are no arguments the bot would instead run: ACTION_google 'usernick' 'channel'
+
+You must define what ACTION_google is inside rambot.conf - see the included action helper inside "actions/google" file.
+
+Return Status:
+
+The bot expects the command to return status 1 if the response should output into the channel.
+The bot expects the command to return status 2 if the response should output directly to the user that made the request.
+All other exit status codes will cause the bot to completely discard and ignore the command results.
 
 Encrypted IRC
+-------------
 This bot does not handle encrypted connections and probably never will.
 If you need ssl/tls use a simple proxy, such as socat
 
