@@ -23,35 +23,44 @@ These can be enabled and disabled in rambot.conf, and you can easily create cust
 You should review each actions/ helper code file, most of them are simple shell scripts or php cli files.
 
 1) weather feature:
+
 .weather placeName - prints the current weather at placeName
 .weather save placeName - have the weather feature remember where your nick is located. Creates new database entry or updates existing location.
 .weather - use after weather save placeName to show your own weather.
 
 2) google feature
+
 .google query - do a google search (the helper actually uses duckduckgo lite), return the summary of the first result.
 
 3) ping feature
+
 .ping 1.2.3.4 - pings the specified ip address.
 .ping example.com - pings the specified host.
 
 4) traceroute feature
+
 .traceroute 1.2.3.4 - performs a traceroute to the specified ip address. result is returned via PM.
 .traceroute example.com - performs a traceroute to the specicied host. result is returned via PM.
 
 5) fortune teller
+
 .fortune - retrieves and prints a random fortune.
 .fortune category - retrieves and prints random fortune from the database specified by category.
 
 6) calculator
+
 .calc expression - evaluates expression and calculates result using bc.
 
 7) insult feature
+
 .insult user - send an insult to the user.
 
 8) stock feature
+
 .stock ticker - retrieves current stock price information.
 
 9) help feature
+
 .help - returns this help documentation via PM.
 
 How the bot executes the action helper commands
