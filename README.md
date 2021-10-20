@@ -96,6 +96,12 @@ To ensure this situation doesn't happen by accident, you should use something su
 
 You can reconfigure the action helpers while the bot is running, you don't need to restart it. RamBot will read and parse rambot.conf every single time an action is requested.
 
+Shell Execution and Unicode Notes:
+-------
+For security, RamBot has been designed to pass the action commands to the shell in a safe manner. However, this also means it will only accept arguments that are valid US-ASCII characters greater than 31 and less than 127, and because the command arguments are always single quoted, we exclude that character (ASCII 39).
+
+RamBot doesn't know anything about Unicode or any other character encodings, however excluding command execution arguments, everything should simply pass straight through AS-IS without being blocked or mangled.
+
 Encrypted IRC and IPv6 Support
 ----------------
 This bot does not handle encrypted connections and probably never will.
@@ -114,3 +120,5 @@ See rambot.sh for more information.
 Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So Having a helper script to automatically restart RamBot when that happens is very useful.
 
 RamBot will output lots of interesting information to it's console. If you run it inside screen, then run "screen -rd" to see what RamBot is doing.
+
+RamBot has been very carefully written and checked against valgrind to ensure absolutely no memory leaks, and is used by the author for many years connected to a real IRC server where people use it every day.
