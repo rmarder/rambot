@@ -96,12 +96,14 @@ To ensure this situation doesn't happen by accident, you should use something su
 
 You can reconfigure the action helpers while the bot is running, you don't need to restart it. RamBot will read and parse rambot.conf every single time an action is requested.
 
-Encrypted IRC
--------------
+Encrypted IRC and IPv6 Support
+----------------
 This bot does not handle encrypted connections and probably never will.
 If you need ssl/tls use a simple proxy, such as socat
 
 socat TCP-LISTEN:6667,fork,reuseaddr OPENSSL:remote-server:7000,verify=0
+
+If you need IPv6 support you can do something similar. RamBot itself only communicates on IPv4.
 
 Daemonizing RamBot
 --------------
