@@ -58,4 +58,5 @@ You should review each actions/ helper code file, most of them are simple shell 
 Encrypted IRC
 This bot does not handle encrypted connections and probably never will.
 If you need ssl/tls use a simple proxy, such as socat
+
 socat TCP-LISTEN:6667,fork,reuseaddr OPENSSL:remote-server:7000,verify=0
