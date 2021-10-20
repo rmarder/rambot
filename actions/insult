@@ -1,0 +1,20 @@
+#!/usr/bin/php
+<?php
+error_reporting(0);
+
+function action_insult($who)
+{
+	$DB=file('insult.txt');
+	$r=rand(0,count($DB)-1);
+	$result=trim($DB[$r]);
+	$result=str_replace('$',$who,$result);
+	return $result;
+}
+
+if($argv[3] != "")
+{
+	echo action_insult($argv[3]);
+	echo "\n";
+	exit(1);
+}
+exit(0);

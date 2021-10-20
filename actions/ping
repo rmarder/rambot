@@ -1,0 +1,4 @@
+#!/bin/sh
+
+ping -w 3 -c 3 $3
+exit 2

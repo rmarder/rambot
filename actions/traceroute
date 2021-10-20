@@ -1,0 +1,4 @@
+#!/bin/sh
+
+timeout 10 traceroute -m 30 $3
+exit 2

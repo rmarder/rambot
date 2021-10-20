@@ -1,0 +1,199 @@
+#!/usr/bin/php
+<?php
+error_reporting(0);
+
+# weatherunderground api key
+define('WUAPIKEY','REMOVED');
+
+# openweathermap.org api key
+define('OPENWEATHERMAPKEY','REMOVED');
+
+# darksky api key
+define('DARKSKYKEY','REMOVED');
+
+function action_weather($query,$remotenick)
+{
+	# validate input
+	if(preg_match('/^[a-z\ \-\_\,\:\d]{1,50}$/i',$query)!=1){$query='';}
+
+	if(is_readable('weatherdb.txt')==false)
+	{
+		touch('weatherdb.txt');
+	}
+	if(is_readable('weatherdb.txt') && is_writable('weatherdb.txt'))
+	{
+	}
+	else
+	{
+		return 'weather feature not available due to configuration problem. please contact bot maintainer.';
+	}
+	
+	if(strstr($query,'save ')!=false)
+	{
+		# check if nick already has weather data saved
+		$DB=file('weatherdb.txt');
+		foreach($DB as $key=>$line)
+		{
+			if(strstr($line,$remotenick.'|')!=false)
+			{
+				# user found in database already, update entry
+				$DB[$key]=$remotenick.'|'.str_replace('save ','',$query)."\n";
+				file_put_contents('weatherdb.txt',str_replace("\n\n","\n",implode("\n",$DB)));
+				return 'updated saved weather as '.trim($DB[$key]);
+			}
+		}
+		# if we get here, then the user was not found in the database. create new entry.
+		$fp=fopen('weatherdb.txt','a');
+		fwrite($fp,$remotenick.'|'.str_replace('save ','',$query)."\n");
+		fclose($fp);
+		return 'new entry for weather as '.$remotenick.'|'.str_replace('save ','',$query);
+	}
+
+	# lookup weather for the nick from database
+	$fp=fopen('weatherdb.txt','r');
+	while(!feof($fp))
+	{
+		$line=fgets($fp);
+		$parts=explode('|',$line);
+		if(trim($parts[0])==$remotenick && $query=='')
+		{
+			$query=trim($parts[1]);
+		}
+		if(trim($parts[0])==$query)
+		{
+			$query=trim($parts[1]);
+		}
+	}
+	fclose($fp);
+	
+	$query=trim($query);
+	$weather_plain_text='';
+	
+	if($query=='')
+	{
+		return 'You have not set your location. Use ".weather save yourlocation" first.';
+	}
+/*
+	# weatherunderground api - best choice - to be discontinued
+	#$result=file_get_contents('http://api.wunderground.com/api/'.WUAPIKEY.'/geolookup/conditions/q/'.urlencode($query).'.json');
+	$result='';
+	$big_array=json_decode($result,true);
+	if(trim($big_array['current_observation']['weather'])!='')
+	{
+		#$weather_plain_text='weather found';
+		$weather_plain_text='WU Conditions for '.$big_array['current_observation']['observation_location']['full'].' at ';
+		$weather_plain_text.=$big_array['current_observation']['observation_time_rfc822'].' - ';
+		$weather_plain_text.=$big_array['current_observation']['weather'].', ';
+		$weather_plain_text.=$big_array['current_observation']['temperature_string'].', Feels like ';
+		$weather_plain_text.=$big_array['current_observation']['feelslike_string'].', Wind ';
+		$weather_plain_text.=$big_array['current_observation']['wind_string'].', Humidity ';
+		$weather_plain_text.=$big_array['current_observation']['relative_humidity'].', Visibility ';
+		$weather_plain_text.=$big_array['current_observation']['visibility_mi'].' mi, Pressure ';
+		$weather_plain_text.=$big_array['current_observation']['pressure_in'].' in';
+	}
+	else{
+	# end weatherunderground api
+
+	# dark sky api - killed by apple
+
+	# geo coding. this is unofficial.
+	$geo=file_get_contents("https://darksky.net/geo?q=".urlencode($query));
+	$geo_array=json_decode($geo,true);
+
+        if(!empty($geo_array['error']) || $geo==false)
+        {
+                $weather_plain_text='Weather data not found.';
+        }
+	else
+	{
+		$rgeo=file_get_contents("https://geocode.xyz/".$geo_array['latitude'].','.$geo_array['longitude']."/?geoit=json");
+		$rgeo_array=json_decode($rgeo,true);
+		#print_r($rgeo_array);
+		$query=ucwords(strtolower($rgeo_array['city'])).', '.str_replace(' United States Of America','',ucwords(strtolower($rgeo_array['region']))).', '.locale_get_display_region('-'.$rgeo_array['prov'],'en');
+
+		$result=file_get_contents("https://api.darksky.net/forecast/".DARKSKYKEY."/".$geo_array['latitude'].','.$geo_array['longitude']);
+		$big_array=json_decode($result,true);
+		$weather_plain_text='Conditions for '.trim($query).': ';
+		$weather_plain_text.=$big_array['currently']['summary'].', '.$big_array['currently']['temperature'].'F/'.imperial_to_metric($big_array['currently']['temperature']).'C, ';
+		$weather_plain_text.='Feels like '.$big_array['currently']['apparentTemperature'].'F/'.imperial_to_metric($big_array['currently']['apparentTemperature']).'C, ';
+		$weather_plain_text.='Humidity '.($big_array['currently']['humidity']*100).'%, ';
+		$weather_plain_text.='Wind '.$big_array['currently']['windSpeed'].'mph gusting to '.$big_array['currently']['windGust'].', ';
+		$weather_plain_text.='Visibility '.$big_array['currently']['visibility'].' miles, Pressure '.$big_array['currently']['pressure'].' mbar ';
+		$weather_plain_text.='https://darksky.net/forecast/'.$geo_array['latitude'].','.$geo_array['longitude'].'/';
+	}
+	# end dark sky api
+	}
+*/
+
+	# openweathermap api
+
+	if(is_numeric($query))
+	{
+		$rgeo=file_get_contents('https://api.openweathermap.org/data/2.5/weather?zip='.urlencode($query).'&units=metric&lang=en&&appid='.OPENWEATHERMAPKEY);
+	}
+	else
+	{
+		$rgeo=file_get_contents('https://api.openweathermap.org/data/2.5/weather?q='.urlencode($query).'&units=metric&lang=en&&appid='.OPENWEATHERMAPKEY);
+		if($rgeo==false)
+		{
+			# try again with US country specified
+			$rgeo=file_get_contents('https://api.openweathermap.org/data/2.5/weather?q='.urlencode($query).',US&units=metric&lang=en&&appid='.OPENWEATHERMAPKEY);
+		}
+	}
+	if($rgeo==false){ return '404 Not Found'; }
+	$rgeo_array=json_decode($rgeo,true);
+
+	$weather_plain_text=$rgeo_array['name'].', '.$rgeo_array['sys']['country'].': '.ucwords($rgeo_array['weather'][0]['description']).','.
+	' Currently '.metric_to_imperial($rgeo_array['main']['temp']).'F/'.round($rgeo_array['main']['temp'],1).'C,'.
+	' Feels Like '.metric_to_imperial($rgeo_array['main']['feels_like']).'F/'.round($rgeo_array['main']['feels_like'],1).'C, Pressure '.$rgeo_array['main']['pressure'].' mbar,'.
+	' Humidity '.$rgeo_array['main']['humidity'].'%,'.
+	' Wind '.wind_deg($rgeo_array['wind']['deg']).' '.$rgeo_array['wind']['speed'].'m/s ('.round(($rgeo_array['wind']['speed']*2.236936),1).'mph) '.
+#	'https://openweathermap.org/weathermap?zoom=12&lat='.$rgeo_array['coord']['lat'].'&lon='.$rgeo_array['coord']['lon'].
+	'https://weather.com/weather/today/l/'.$rgeo_array['coord']['lat'].','.$rgeo_array['coord']['lon'].
+	"";
+
+	# end openweathermap api
+
+	return $weather_plain_text;
+}
+
+function imperial_to_metric($f)
+{
+	$c=5/9*($f-32);
+	return round($c,1);
+}
+
+function metric_to_imperial($c)
+{
+	$f=($c*9/5)+32;
+	return round($f,1);
+}
+
+# convert wind degrees to direction
+function wind_deg($d)
+{
+        if($d <= 11.25){ return 'N'; }
+        if($d >= 11.25 && $d <= 33.75){ return 'NNE'; }
+        if($d >= 33.75 && $d <= 56.25){ return 'NE'; }
+        if($d >= 56.25 && $d <= 78.75){ return 'ENE'; }
+        if($d >= 78.75 && $d <= 101.25){ return 'E'; }
+        if($d >= 101.25 && $d <= 123.75){ return 'ESE'; }
+        if($d >= 123.75 && $d <= 146.25){ return 'SE'; }
+        if($d >= 146.25 && $d <= 168.75){ return 'SSE'; }
+        if($d >= 168.75 && $d <= 191.25){ return 'S'; }
+        if($d >= 191.25 && $d <= 213.75){ return 'SSW'; }
+        if($d >= 213.75 && $d <= 236.25){ return 'SW'; }
+        if($d >= 236.25 && $d <= 258.75){ return 'WSW'; }
+        if($d >= 258.75 && $d <= 281.25){ return 'W'; }
+        if($d >= 281.25 && $d <= 303.75){ return 'WNW'; }
+        if($d >= 303.75 && $d <= 326.25){ return 'NW'; }
+        if($d >= 326.25 && $d <= 348.75){ return 'NNW'; }
+        if($d >= 348.75){ return 'N'; }
+}
+
+if(!isset($argv[3])) { $argv[3]=""; }
+
+echo action_weather($argv[3], $argv[1]);
+echo "\n";
+
+exit(1);

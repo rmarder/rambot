@@ -1,0 +1,52 @@
+#!/usr/bin/php
+<?php
+# argv[1] = usernick, argv[2] = channel, argv[3] = action_args
+
+error_reporting(0);
+
+if(!class_exists('DOMDocument'))
+{
+	die('DOM / XML is not installed!');
+}
+if(!function_exists('curl_init'))
+{
+	die('CURL is not installed!');
+}
+
+function url_get_title($url)
+{
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+	curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+	curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 5);
+	curl_setopt($ch, CURLOPT_TIMEOUT, 5);
+	curl_setopt($ch,CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0');
+	$html = curl_exec($ch);
+	curl_close($ch);
+
+	if(strlen($html) > 0)
+	{
+		echo parse_title($html);
+		echo "\n";
+	}
+}
+
+function parse_title($html)
+{
+	libxml_use_internal_errors(true);
+	$dom = new DOMDocument;
+	$dom->loadHTML($html);
+	$titles = $dom->getElementsByTagName('title');
+	foreach($titles as $title)
+	{
+		return trim($title->nodeValue);
+	}
+	return "";
+}
+
+echo url_get_title($argv[3]);
+
+# return the result to the public irc channel
+exit(1);

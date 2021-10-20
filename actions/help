@@ -1,0 +1,36 @@
+#!/bin/sh
+cat <<zzz23EndOfMessagezzz23
+rnbot documented commands.
+-------------------------
+1) weather feature:
+.weather placeName - prints the current weather at placeName
+.weather save placeName - have the weather feature remember where your nick is located. Creates new database entry or updates existing location.
+.weather - use after weather save placeName to show your own weather.
+
+2) google feature
+.google query - do a google search, return the summary of the first result.
+
+3) ping feature
+.ping 1.2.3.4 - pings the specified ip address. result is returned via PM only.
+.ping example.com - pings the specified host. result is returned via PM only.
+
+4) traceroute feature
+.traceroute 1.2.3.4 - performs a traceroute to the specified ip address. result is returned via PM only.
+.traceroute example.com - performs a traceroute to the specicied host. result is returned via PM only.
+
+5) fortune teller
+.fortune - retrieves and prints a random fortune.
+.fortune category - retrieves and prints random fortune from the database specified by category.
+
+6) calculator
+.calc expression - evaluates expression and calculates result using bc.
+
+7) insult feature
+.insult user - send an insult to the user.
+
+8) stock feature
+.stock ticker - retrieves current stock price information.
+zzz23EndOfMessagezzz23
+
+# send this to the user that asked for it directly
+exit 2

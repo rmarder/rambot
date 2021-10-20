@@ -1,0 +1,51 @@
+#!/usr/bin/php
+<?php
+# argv[1] = usernick, argv[2] = channel, argv[3] = action_args
+
+error_reporting(0);
+
+if(!function_exists('json_decode'))
+{
+	die('JSON is not installed!');
+}
+
+function action_stock($query)
+{
+	$stock=file_get_contents('https://client.schwab.com/public/quickquote/psqqset.ashx?symbol='.$query.'&callback=QQ.Set');
+
+	$stock=str_replace('QQ.Set','',$stock);
+	$stock=trim($stock,'()');
+
+	$stock_a=json_decode($stock,true);
+	#print_r($stock_a);
+
+	# stock not found
+	if($stock_a['Status']==-1)
+	{
+		return trim($stock_a['Symbols'][0]['Message']);
+	}
+
+	# stock found, extract info
+	if($stock_a['Status']==0)
+	{
+		$s_html=$stock_a['Symbols'][0]['Html'];
+		$s_last='Last $'.str_replace('Last','',strip_tags(strstr(strstr($s_html,'Last'),'</div>',true)));
+		$s_change='Change $'.str_replace('Change','',strip_tags(strstr(strstr($s_html,'Change'),'</div>',true)));
+		$s_bid='Bid $'.str_replace('Bid','',strip_tags(strstr(strstr($s_html,'Bid'),'</div>',true)));
+		$s_ask='Ask $'.str_replace('Ask','',strip_tags(strstr(strstr($s_html,'Ask'),'</div>',true)));
+		$s_high='High $'.str_replace('High','',strip_tags(strstr(strstr($s_html,'High'),'</div>',true)));
+		$s_low='Low $'.str_replace('Low','',strip_tags(strstr(strstr($s_html,'Low'),'</div>',true)));
+
+		$result='Now: '.$s_last.' ('.$s_bid.' '.$s_ask.') Day: '.$s_high.' '.$s_low.' '.$s_change;
+		#echo "\n".trim($stock_a['Symbols'][0]['Symbol']).' '.trim($result)."\n";
+		return trim($stock_a['Symbols'][0]['Symbol']).' '.trim($result).' https://finance.yahoo.com/quote/'.trim($stock_a['Symbols'][0]['Symbol']);
+	}
+}
+
+if($argv[3] != "")
+{
+	echo action_stock($argv[3]);
+	echo "\n";
+	exit(1);
+}
+exit(0);
