@@ -117,7 +117,7 @@ Daemonizing RamBot
 --------------
 echo '/usr/bin/sudo -u rambot screen -d -m /home/rambot/rambot.sh' >> /etc/rc.local
 
-See rambot.sh for more information.
+Adjust if your system doesn't have an /etc/rc.local or equivalent - writing an initd or systemd script is left as an exercise to the reader.
 
 Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So Having a helper script to automatically restart RamBot when that happens is very useful.
 
