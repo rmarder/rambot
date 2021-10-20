@@ -7,10 +7,10 @@ Build Instructions
 2) ensure you have a working C99 compiler, such as gcc
 3) ensure you have POSIX - I have only tested this on Ubuntu 20.04 but we absolutely require a POSIX OS and this should work fine on BSD or other Linux/Unix too.
 4) execute "make" - RamBot itself has no external library dependencies at all.
-5) configure the bot with rambot.conf
-6) run "rambotc" without any arguments - it should connect to an irc server, authenticate against NickServ, and join the channel you configured.
+5) configure HOST, PORT, USER, PASSWORD, and CHANNEL in rambot.conf
+6) run "./rambotc" without any arguments - it should connect to an irc server, authenticate against NickServ, and join the channel you configured.
 7) test the builtin action by typing ".say hello world" - the bot should say "hello world" into the irc channel.
-8) configure your action helpers to make the bot do useful things!
+8) configure your action helpers in rambot.conf and in the actions folder to make the bot do useful things!
 
 NOTE: For security reasons I would strongly suggest you setup this bot with it's own system user account. I use /home/rambot
 
