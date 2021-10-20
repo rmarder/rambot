@@ -25,7 +25,9 @@ You should review each actions/ helper code file, most of them are simple shell 
 1) weather feature:
 
 .weather placeName - prints the current weather at placeName
+
 .weather save placeName - have the weather feature remember where your nick is located. Creates new database entry or updates existing location.
+
 .weather - use after weather save placeName to show your own weather.
 
 2) google feature
@@ -35,16 +37,19 @@ You should review each actions/ helper code file, most of them are simple shell 
 3) ping feature
 
 .ping 1.2.3.4 - pings the specified ip address.
+
 .ping example.com - pings the specified host.
 
 4) traceroute feature
 
 .traceroute 1.2.3.4 - performs a traceroute to the specified ip address. result is returned via PM.
+
 .traceroute example.com - performs a traceroute to the specicied host. result is returned via PM.
 
 5) fortune teller
 
 .fortune - retrieves and prints a random fortune.
+
 .fortune category - retrieves and prints random fortune from the database specified by category.
 
 6) calculator
@@ -78,7 +83,9 @@ You must define what ACTION_google is inside rambot.conf - see the included acti
 Return Status:
 
 The bot expects the command to return status 1 if the response should output into the channel.
+
 The bot expects the command to return status 2 if the response should output directly to the user that made the request.
+
 All other exit status codes will cause the bot to completely discard and ignore the command results.
 
 Important Note:
