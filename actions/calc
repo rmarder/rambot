@@ -7,12 +7,6 @@ error_reporting(0);
 
 function action_calc($expr)
 {
-	# validate input - there is no point doing this here with the new bot
-	#$expr=filter_var($expr,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_LOW);
-	#$expr=filter_var($expr,FILTER_SANITIZE_STRING,FILTER_FLAG_STRIP_HIGH);
-
-	# dangerous, don't actually use calc as it can run abitrary programs
-	#$result=explode("\n",shell_exec('/usr/bin/timeout 10 /usr/bin/calc -d -m 0 -q -- '.escapeshellarg($expr).' 2>&1'));
 	$result=explode("\n",shell_exec('/bin/echo -E '.escapeshellarg($expr).' | /usr/bin/timeout 3 /usr/bin/bc 2>&1'));
 
 	# this prevents chat being flooded. only catch the first result.
