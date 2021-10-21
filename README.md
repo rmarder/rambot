@@ -74,21 +74,25 @@ How RamBot Executes Action Helpers
 -------------------------
 The bot will run: ACTION_cmd 'usernick' 'channel' 'arguments'
 
+The bot will send nothing on standard input (stdin), and expect a response on standard output (stdout).
+
 For example, that means if someone types ".google my search query" into the irc chat, the bot will execute:
 
 ACTION_google 'usernick' 'channel' 'my search query'
 
 If there are no arguments the bot would instead run: ACTION_google 'usernick' 'channel'
 
-You must define what ACTION_google is inside rambot.conf - see the included action helper inside "actions/google" file.
+You must define what ACTION_google is inside rambot.conf 
 
-Return Status:
+The included action helper inside the "actions/google" file will perform a web search and output the first result to stdout, returning exit status 1.
 
-The bot expects the command to return status 1 if the response should output into the channel.
+Return Status Special Meaning:
 
-The bot expects the command to return status 2 if the response should output directly to the user that made the request.
+The bot expects the command to return status 1 if the response should output into the channel for everyone to see.
 
-All other exit status codes will cause the bot to completely discard and ignore the command results.
+The bot expects the command to return status 2 if the response should output directly to the user that made the request in a private message.
+
+All other program return exit status codes will cause the bot to completely discard and ignore the command results. You should pay special attention to this, as it is convention for most commands to return exit status 0 on success.
 
 Important Note:
 RamBot is a single threaded program. That means, the bot will only handle one request at a time.
