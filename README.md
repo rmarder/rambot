@@ -22,7 +22,7 @@ You can reference them to see how they work, and write your own.
 
 The following is documentation for all the included action helpers.
 These can be enabled and disabled in rambot.conf, and you can easily create custom ones as well.
-You should review each actions/ helper code file, most of them are simple shell scripts or php cli files and very easy for the layman to read and understand. Any executable script can be used as an action helper if it follows RamBot's guidelines.
+You should review each actions/ helper code file, most of them are simple shell scripts or php cli files and very easy for the layman to read and understand. Any executable can be used as an action helper if it follows RamBot's guidelines.
 
 1) weather feature:
 
