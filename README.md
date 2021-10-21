@@ -104,7 +104,7 @@ In rambot.conf if you have http listed in ACTIONS and ACTION_http set then RamBo
 
 ACTION_http 'usernick' 'channel' 'https://github.com/rmarder/rambot/'
 
-The included actions/http script will extract and return web page titles.
+The included actions/http script will extract and return web page titles, which is the most obvious value of this feature.
 
 How the bot executes the action helper commands
 -------------------------
