@@ -74,9 +74,13 @@ Special Actions
 --------------
 RamBot has 2 special actions.
 
+1) echo server
+
 .say any text
 
 This is a basic echo function - useful to test RamBot is working correctly if you have no actions configured and working yet.
+
+2) http:// and https:// link handler
 
 .http http://anything
 
@@ -87,12 +91,14 @@ This is a web site URL handler action.
 Note that the only builtin part of this, is that RamBot will scan every single chat line for url links to websites and internally translate the request to this format.
 
 For example, if somebody writes this into the channel:
+
 "I really like https://github.com/rmarder/rambot/ you should try it out!"
 
 RamBot will extract the URL out and translate this into a request of this format:
+
 .http https://github.com/rmarder/rambot/
 
-From that point onwards the http action must be defined, and behaves, just like any other action.
+From that point onwards the http action must be defined, and behaves, just like any other external action as defined in rambot.conf.
 
 In rambot.conf if you have http listed in ACTIONS and ACTION_http set then RamBot will execute:
 
