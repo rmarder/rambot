@@ -127,7 +127,7 @@ For example, if somebody writes this into the channel:
 
 "I really like https://github.com/rmarder/rambot/ you should try it out!"
 
-RamBot will extract the URL out and translate this into a request of this format:
+RamBot will extract the URL out and translate that into a request of this format:
 
 .http https://github.com/rmarder/rambot/
 
