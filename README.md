@@ -78,10 +78,11 @@ RamBot has 2 special actions.
 
 This is a basic echo function - useful to test RamBot is working correctly if you have no actions configured and working yet.
 
-.http http://URL
-.http https://URL
+.http http://anything
 
-This is a web page URL handler action.
+.http https://anything
+
+This is a web site URL handler action.
 
 Note that the only builtin part of this, is that RamBot will scan every single chat line for url links to websites and internally translate the request to this format.
 
