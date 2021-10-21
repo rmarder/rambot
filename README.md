@@ -70,7 +70,7 @@ You should review each actions/ helper code file, most of them are simple shell 
 
 .help - returns this help documentation via PM.
 
-How the bot executes the action helper commands
+How RamBot Executes Action Helpers
 -------------------------
 The bot will run: ACTION_cmd 'usernick' 'channel' 'arguments'
 
@@ -157,7 +157,7 @@ echo '/usr/bin/sudo -u rambot screen -d -m /home/rambot/rambot.sh' >> /etc/rc.lo
 
 Adjust if your system doesn't have an /etc/rc.local or equivalent - writing an initd or systemd script is left as an exercise to the reader.
 
-Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So Having a helper script to automatically restart RamBot when that happens is very useful.
+Note that on connection faults, RamBot will terminate and not try to automatically reconnect. So having a helper script to automatically restart RamBot when that happens is very useful.
 
 RamBot will output lots of interesting information to it's console. If you run it inside screen, then run "screen -rd" to see what RamBot is doing.
 
