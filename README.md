@@ -140,11 +140,11 @@ ACTION_http 'usernick' 'channel' 'https://github.com/rmarder/rambot/'
 The included actions/http script will extract and return web page titles, which is the most obvious value of this feature.
 
 
-Shell Execution and Unicode Notes:
+Shell Execution and Locale / Unicode Notes:
 -------
-For security, RamBot has been designed to pass the action commands to the shell in a safe manner. However, this also means it will only accept arguments that are valid US-ASCII characters greater than 31 and less than 127, and because the command arguments are always single quoted, we exclude that character (ASCII 39).
+For security, RamBot has been designed to pass the action commands to the shell in a safe manner. However, this also means it will only accept arguments to action commands that are valid US-ASCII characters greater than code 31 and less than code 127, and because the command arguments are always single quoted, we exclude that character (ASCII code 39).
 
-RamBot doesn't know anything about Unicode or any other character encodings, however excluding command execution arguments, everything should simply pass straight through AS-IS without being blocked or mangled.
+RamBot assumes your shell and the IRC server you are connected to are all using a US-ASCII compatible character encoding locale, such as the default POSIX locale or something like UTF-8 or ISO 8859-1 which are all compatible with US-ASCII. If your local system, or the IRC server you connect with, are using a character encoding that is not compatible, such as UTF-16 or UTF-32, then RamBot won't work as expected.
 
 Encrypted IRC and IPv6 Support
 ----------------
