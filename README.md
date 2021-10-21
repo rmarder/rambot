@@ -70,6 +70,35 @@ You should review each actions/ helper code file, most of them are simple shell 
 
 .help - returns this help documentation via PM.
 
+Special Actions
+--------------
+RamBot has 2 special actions.
+
+.say any text
+
+This is a basic echo function - useful to test RamBot is working correctly if you have no actions configured and working yet.
+
+.http http://URL
+.http https://URL
+
+This is a web page URL handler action.
+
+Note that the only builtin part of this, is that RamBot will scan every single chat line for url links to websites and internally translate the request to this format.
+
+For example, if somebody writes this into the channel:
+"I really like https://github.com/rmarder/rambot/ you should try it out!"
+
+RamBot will extract the URL out and translate this into a request of this format:
+.http https://github.com/rmarder/rambot/
+
+From that point onwards the http action must be defined, and behaves, just like any other action.
+
+In rambot.conf if you have http listed in ACTIONS and ACTION_http set then RamBot will execute:
+
+ACTION_http 'usernick' 'channel' 'https://github.com/rmarder/rambot/'
+
+The included actions/http script will extract and return web page titles.
+
 How the bot executes the action helper commands
 -------------------------
 The bot will run: ACTION_cmd 'usernick' 'channel' 'arguments'
