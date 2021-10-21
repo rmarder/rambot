@@ -165,4 +165,4 @@ Note that on connection faults, RamBot will terminate and not try to automatical
 
 RamBot will output lots of interesting information to it's console. If you run it inside screen, then run "screen -rd" to see what RamBot is doing.
 
-RamBot has been very carefully written and checked against valgrind to ensure absolutely no memory leaks, and is used by the author for many years connected to a real IRC server where people use it every day.
+RamBot has been very carefully written and checked against valgrind to ensure absolutely no memory leaks, and is used by the author for many years connected to a real IRC server where people use it every day. To the authors knowledge RamBot has never unexpectedly segfaulted or experienced any buffer overflows, nor does it contain any known security problems.
