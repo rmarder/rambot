@@ -112,6 +112,7 @@ RamBot has 2 special actions.
 .say any text
 
 This is a basic echo function - useful to test RamBot is working correctly if you have no actions configured and working yet.
+This action is 100% internal to RamBot - the actions inside rambot.conf do not control what say does, and you cannot redefine ACTION_say in rambot.conf either.
 
 2) http:// and https:// link handler
 
