@@ -40,6 +40,17 @@ function parse_search($html)
 	libxml_use_internal_errors(true);
 	$dom = new DOMDocument;
 	$dom->loadHTML($html);
+
+	$list2 = $dom->getElementsByTagName('a');
+	$result_link = '';
+	foreach($list2 as $key=>$value)
+	{
+		$line = trim($value->getAttribute('href'));
+		//echo "key: [$key] => value: [$line]\n";
+		$result_link = $line;
+		break; // only loop once
+	}
+
 	$list = $dom->getElementsByTagName('td');
 
 	foreach($list as $key=>$value)
@@ -47,6 +58,16 @@ function parse_search($html)
 		$line = trim($value->nodeValue);
 		//echo "key: [$key] => value: [$line]\n";
 
+		$class = trim($value->getAttribute('class'));
+		//echo "key: [$key] => class: [$class]\n";
+
+		if($class == 'result-snippet')
+		{
+			$result = $line;
+			break;
+		}
+
+		/*
 		if(substr($line, 0, 2) == "1.")
 		{
 			// start of what we want
@@ -63,9 +84,11 @@ function parse_search($html)
 			// collect what we want
 			$result = $result.$line."\n";
 		}
+		*/
 	}
 
 	// cleanup the results
+	/*
 	$result_array = explode("\n", $result);
 	$final_result = array();
 	foreach($result_array as $value)
@@ -75,8 +98,10 @@ function parse_search($html)
 		$final_result[] = $value;
 	}
 	return implode("\n", $final_result)."\n";
-}
+	*/
 
+	return $result."\n".$result_link."\n";
+}
 if($argv[3] != "")
 {
 	echo url_get_title($argv[3]);
