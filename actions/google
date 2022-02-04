@@ -48,6 +48,7 @@ function parse_search($html)
 		$line = trim($value->getAttribute('href'));
 		//echo "key: [$key] => value: [$line]\n";
 		$result_link = $line;
+		if(substr($result_link,0,9)=='/lite/?q='){ continue; } // this skips over the "did you mean?" section if it exists
 		break; // only loop once
 	}
 
