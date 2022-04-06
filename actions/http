@@ -37,7 +37,10 @@ function parse_title($html)
 {
 	libxml_use_internal_errors(true);
 	$dom = new DOMDocument;
-	$dom->loadHTML($html);
+
+	# assume UTF-8 for everything rather than the default ISO-8859-1
+	$dom->loadHTML('<?xml encoding="UTF-8">'.$html);
+
 	$titles = $dom->getElementsByTagName('title');
 	foreach($titles as $title)
 	{
