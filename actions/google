@@ -49,6 +49,7 @@ function parse_search($html)
 		//echo "key: [$key] => value: [$line]\n";
 		$result_link = $line;
 		if(substr($result_link,0,9)=='/lite/?q='){ continue; } // this skips over the "did you mean?" section if it exists
+		if(substr($result_link,0,22)=='https://duckduckgo.com'){ $result_link=''; } // this skips over sponsored results that don't give us a proper link
 		break; // only loop once
 	}
 
