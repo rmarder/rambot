@@ -68,39 +68,7 @@ function parse_search($html)
 			$result = $line;
 			break;
 		}
-
-		/*
-		if(substr($line, 0, 2) == "1.")
-		{
-			// start of what we want
-			$start_flag = 1;
-			continue;
-		}
-		if(substr($line, 0, 2) == "2.")
-		{
-			// got everything we want.
-			break;
-		}
-		if($start_flag == 1)
-		{
-			// collect what we want
-			$result = $result.$line."\n";
-		}
-		*/
 	}
-
-	// cleanup the results
-	/*
-	$result_array = explode("\n", $result);
-	$final_result = array();
-	foreach($result_array as $value)
-	{
-		if(ord($value) > 126) { continue; }
-		if(trim($value)==""){ continue; }
-		$final_result[] = $value;
-	}
-	return implode("\n", $final_result)."\n";
-	*/
 
 	return $result."\n".$result_link."\n";
 }
