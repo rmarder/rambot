@@ -75,7 +75,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 	// handle built in actions
 	if(strcmp(action, "say") == 0 && action_args != NULL)
 	{
-		if(sprintf(send, "PRIVMSG %s :%s", channel, action_args) > 0)
+		if(sprintf(send, "PRIVMSG %s :%s", channel, action_args) > 0 || sprintf(send, "NOTICE %s :%s", channel, action_args) > 0)
 		{
 			printf("SEND: [%s]\n", send);
 			write_line(sock, send);
@@ -177,7 +177,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 
 					if(cmd_status > 0 && cmd_status < 3 && strlen(cmd_line) > 0)
 					{
-						// status 1 means output to channel, status 2 means output to user directly
+						// status 1 means output to channel, status 2 means output to user directly, status 3 means output using NOTICE to user
 						// we ignore all other statuses
 
 						output_length = explode(&output, cmd_line, "\n");
@@ -201,6 +201,14 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 								if(cmd_status == 2)
 								{
 									if(sprintf(send, "PRIVMSG %s :%s", usernick, output[i]) < 0)
+									{
+										debugf("%s\n", "sprintf() failure.");
+										exit(1);
+									}
+								}
+								if(cmd_status == 3)
+								{
+									if(sprintf(send, "NOTICE %s :%s", usernick, output[i]) < 0)
 									{
 										debugf("%s\n", "sprintf() failure.");
 										exit(1);
@@ -513,11 +521,11 @@ int main()
 		}
 
 		// finally, handle chat messages
-		if(strstr(part0, "PRIVMSG") != NULL)
+		if(strstr(part0, "PRIVMSG") != NULL || strstr(part0, "NOTICE") != NULL)
 		{
-			debugf("%s\n", "PRIVMSG detected!");
+			debugf("%s\n", "PRIVMSG or NOTICE detected!");
 			// grab the second part and strip it
-			// since we have PRIVMSG, we can be assured that part1 exists.
+			// since we have PRIVMSG or NOTICE, we can be assured that part1 exists.
 			part1 = strip(parts[1]);
 			if(part1 == NULL)
 			{
