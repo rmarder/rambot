@@ -92,6 +92,8 @@ The bot expects the command to return status 1 if the response should output int
 
 The bot expects the command to return status 2 if the response should output directly to the user that made the request in a private message.
 
+The bot expects the command to return status 3 if the response should output directly to the user that made the request in a notice message.
+
 All other program return exit status codes will cause the bot to completely discard and ignore the command results. You should pay special attention to this, as it is convention for most commands to return exit status 0 on success.
 
 Important Note:
