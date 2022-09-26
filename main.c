@@ -175,7 +175,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 					cmd_status = WEXITSTATUS(cmd_status);
 					printf("EXEC: exit status: [%d]\n", cmd_status);
 
-					if(cmd_status > 0 && cmd_status < 3 && strlen(cmd_line) > 0)
+					if(cmd_status > 0 && cmd_status < 4 && strlen(cmd_line) > 0)
 					{
 						// status 1 means output to channel, status 2 means output to user directly, status 3 means output using NOTICE to user
 						// we ignore all other statuses
