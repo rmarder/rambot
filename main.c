@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Robert Alex Marder (ram@robertmarder.com)
+ * Copyright (C) 2021, 2022 Robert Alex Marder (ram@robertmarder.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -104,7 +104,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 			debugf("%s\n", "Error: action_current strip() failed.");
 			exit(1);
 		}
-		tmp = malloc(strlen(action_current) + 8);
+		tmp = (char*)malloc(strlen(action_current) + 8);
 		if(tmp == NULL)
 		{
 			debugf("%s\n", "Error: malloc() failed.");
@@ -120,7 +120,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 		{
 			if(is_shell_safe(action_args) == 1)
 			{
-				tmp = malloc(strlen(action_current_cmd) + strlen(usernick) + strlen(channel) + strlen(action_args) + 20);
+				tmp = (char*)malloc(strlen(action_current_cmd) + strlen(usernick) + strlen(channel) + strlen(action_args) + 20);
 				if(tmp == NULL)
 				{
 					debugf("%s\n", "Error: malloc() failed.");
@@ -147,7 +147,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 				free(tmp);
 
 				// hard limit of how much we will read from the command
-				tmp = malloc(2000);
+				tmp = (char*)malloc(2000);
 				for(int i = 0; i < 2000; i++)
 				{
 					c = fgetc(fp);
@@ -355,7 +355,7 @@ int main()
 			{
 				line_length = strlen(config_user) + 1; // dynamic part
 				line_length = line_length + 5; // add our static part
-				line = malloc(line_length);
+				line = (char*)malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -374,7 +374,7 @@ int main()
 			{
 				line_length = 5 * (strlen(config_user) + 1); // dynamic part
 				line_length = line_length + 11; // add our static part
-				line = malloc(line_length);
+				line = (char*)malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -400,7 +400,7 @@ int main()
 			{
 				line_length = strlen(config_password) + 1; // dynamic part
 				line_length = line_length + 27; // add our static part
-				line = malloc(line_length);
+				line = (char*)malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -419,7 +419,7 @@ int main()
 			{
 				line_length = strlen(config_channel) + 1; // dynamic part
 				line_length = line_length + 5; // add our static part
-				line = malloc(line_length);
+				line = (char*)malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -503,7 +503,7 @@ int main()
 
 			line_length = strlen(tmp) + 1; // dynamic part
 			line_length = line_length + 6; // add our static part
-			line = malloc(line_length);
+			line = (char*)malloc(line_length);
 			if(line == NULL)
 			{
 				debugf("%s\n", "malloc() memory allocation failure.");
