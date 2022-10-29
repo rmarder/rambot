@@ -330,7 +330,6 @@ char * reverse(const char *input)
 		return NULL;
 	}
 
-	char *tmp;
 	char *output;
 	ssize_t y;
 	ssize_t x;
@@ -466,7 +465,6 @@ char * ltrim(const char *input, const char *tokens)
 	char *output;
 	char *tmp1;
 	char *tmp2;
-	size_t length = strlen(input) + 1;
 
 	// reverse input, feed it into rtrim, and reverse the result.
 	tmp1 = reverse(input);
@@ -489,7 +487,6 @@ char * trim(const char *input, const char *tokens)
 
 	char *output;
 	char *tmp;
-	size_t length = strlen(input) + 1;
 
 	// pass into rtrim() and ltrim()
 	tmp = rtrim(input, tokens);
@@ -519,12 +516,10 @@ char * strip(const char *input)
 
 int write_line(int sock, const char *line)
 {
-	size_t length;
 	size_t i;
 	char buf[2];
 
 	i = 0;
-	length = strlen(line);
 	strcpy(buf, "0"); // sanity check - populate with dummy data
 
 	while(1)
@@ -752,7 +747,6 @@ char * parse_config(const char *filename, const char *search)
 // this means ascii characters 32 through 126, excluding 39 (the single quote itself)
 int is_shell_safe(const char *str)
 {
-	size_t length = strlen(str) - 1;
 	size_t i = 0;
 	while(1)
 	{
