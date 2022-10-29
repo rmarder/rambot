@@ -411,7 +411,7 @@ char * rtrim(const char *input, const char *tokens)
 	while(1)
 	{
 		// check if any of the tokens are in this character position.
-		for(int i = 0; i < strlen(tokens); i++)
+		for(size_t i = 0; i < strlen(tokens); i++)
 		{
 			if(output[x] == tokens[i])
 			{
@@ -693,7 +693,7 @@ char * parse_config(const char *filename, const char *search)
 	free(config_raw);
 
 	// loop over each line looking for search
-	for(size_t i = 0; i < config_length; i++)
+	for(ssize_t i = 0; i < config_length; i++)
 	{
 		debugf("[%zu] => [%s]\n", i, config[i]);
 
@@ -733,7 +733,7 @@ char * parse_config(const char *filename, const char *search)
 	}
 
 	// free config
-	for(size_t i = 0; i < config_length; i++)
+	for(ssize_t i = 0; i < config_length; i++)
 	{
 		free(config[i]);
 	}
