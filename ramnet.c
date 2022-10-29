@@ -415,7 +415,7 @@ char * rtrim(const char *input, const char *tokens)
 		{
 			if(output[x] == tokens[i])
 			{
-				debugf("Loop: x = [%d] | i = [%d] | char at output[%d] = [%c] matched char at tokens[%d] = [%c]\n", x, i, x, output[x], i, tokens[i]);
+				//debugf("Loop: x = [%d] | i = [%d] | char at output[%d] = [%c] matched char at tokens[%d] = [%c]\n", x, i, x, output[x], i, tokens[i]);
 				trim = 1;
 				shorten = 1;
 			}
