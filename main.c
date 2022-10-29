@@ -59,7 +59,6 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 	ssize_t output_length;
 	char *action_current;
 	char *action_current_cmd;
-	char *result;
 	char *tmp;
 	FILE* fp;
 	int cmd_status;
