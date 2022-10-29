@@ -276,6 +276,12 @@ void do_http(int sock, const char *usernick, const char *channel, const char *ch
 	{
 		tmp1 = strdup(strstr(chat, "https://"));
 	}
+	else
+	{
+		debugf("%s\n", "Error: invalid codepath reached in do_http().");
+		exit(1);
+	}
+
 	if(tmp1 == NULL)
 	{
 		debugf("%s\n", "Error: malloc() failure.");
