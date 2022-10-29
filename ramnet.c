@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021 Robert Alex Marder (ram@robertmarder.com)
+ * Copyright (C) 2021, 2022 Robert Alex Marder (ram@robertmarder.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -140,7 +140,7 @@ ssize_t explode(char ***output, const char *input, const char *tokens)
 		return -1;
 	}
 
-	new_output = malloc(sizeof(*new_output));
+	new_output = (char**)malloc(sizeof(*new_output));
 	if(new_output == NULL)
 	{
 		debugf("%s\n", "malloc() memory allocation failure");
@@ -185,7 +185,7 @@ ssize_t explode(char ***output, const char *input, const char *tokens)
 		// try to allocate memory to store another result.
 		needed = sizeof(*new_output) * (length + 1);
 		debugf("realloc() %zu bytes to new_output\n", needed);
-		tmp = realloc(new_output, needed);
+		tmp = (char**)realloc(new_output, needed);
 		if(tmp == NULL)
 		{
 			debugf("%s\n", "realloc() memory allocation failure");
@@ -244,7 +244,7 @@ ssize_t file_get_contents(char **output, const char *filename)
 	length = 2;
 
 	// malloc() some space so we can get started.
-	new_output = malloc(length);
+	new_output = (char*)malloc(length);
 	if(new_output == NULL)
 	{
 		fclose(fp);
@@ -265,7 +265,7 @@ ssize_t file_get_contents(char **output, const char *filename)
 			// whatever space we need, double it.
 			needed = (length + 1) * 2;
 			debugf("realloc: needed: [%zu] | cur_len: [%zu] | length: [%zu]\n", needed, cur_len, length);
-			tmp = realloc(new_output, needed);
+			tmp = (char*)realloc(new_output, needed);
 			if(tmp == NULL)
 			{
 				debugf("%s\n", "realloc() memory allocation failure");
@@ -284,7 +284,7 @@ ssize_t file_get_contents(char **output, const char *filename)
 	new_output[cur_len] = '\0';
 
 	// realloc smaller so our result matches what we need
-	tmp = realloc(new_output, cur_len + 1);
+	tmp = (char*)realloc(new_output, cur_len + 1);
 	if(tmp == NULL)
 	{
 		debugf("%s\n", "realloc() memory allocation failure");
@@ -337,7 +337,7 @@ char * reverse(const char *input)
 
 	y = strlen(input);
 
-	output = malloc(y + 1);
+	output = (char*)malloc(y + 1);
 	if(output == NULL)
 	{
 		debugf("%s\n", "malloc() memory allocation failure.");
@@ -440,7 +440,7 @@ char * rtrim(const char *input, const char *tokens)
 	if(shorten == 1)
 	{
 		debugf("%s\n", "characters were trimmed, shortening the string memory.");
-		tmp = realloc(output, strlen(output) + 1);
+		tmp = (char*)realloc(output, strlen(output) + 1);
 		if(tmp == NULL)
 		{
 			debugf("%s\n", "realloc() memory allocation failure");
@@ -564,7 +564,7 @@ char * read_line(int sock)
 	// since we are going to be doubling this later, this should be an even number > 0.
 	length = 2;
 
-	output = malloc(length);
+	output = (char*)malloc(length);
 
 	while(1)
 	{
@@ -594,7 +594,7 @@ char * read_line(int sock)
 			// whatever space we need, double it.
 			needed = (length + 1) * 2;
 			debugf("realloc: needed: [%zu] | cur_len: [%zu] | length: [%zu]\n", needed, cur_len, length);
-			tmp = realloc(output, needed);
+			tmp = (char*)realloc(output, needed);
 			if(tmp == NULL)
 			{
 				debugf("%s\n", "realloc() memory allocation failure");
@@ -612,7 +612,7 @@ char * read_line(int sock)
 
 	needed = strlen(output) + 1;
 	debugf("shortening the string memory to [%zu]\n", needed);
-	tmp = realloc(output, needed);
+	tmp = (char*)realloc(output, needed);
 	if(tmp == NULL)
 	{
 		debugf("%s\n", "realloc() memory allocation failure");
