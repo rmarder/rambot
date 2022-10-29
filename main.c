@@ -95,7 +95,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 		exit(1);
 	}
 
-	for(size_t i = 0; i < actions_length; i++)
+	for(ssize_t i = 0; i < actions_length; i++)
 	{
 		action_current = strip(actions[i]);
 		if(action_current == NULL)
@@ -187,7 +187,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 						}
 						else
 						{
-							for(size_t i = 0; i < output_length; i++)
+							for(ssize_t i = 0; i < output_length; i++)
 							{
 								if(cmd_status == 1)
 								{
@@ -216,7 +216,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 								printf("SEND: [%s]\n", send);
 								write_line(sock, send);
 							}
-							for(size_t i = 0; i < output_length; i++)
+							for(ssize_t i = 0; i < output_length; i++)
 							{
 								free(output[i]);
 							}
@@ -248,7 +248,7 @@ void do_action(int sock, const char *usernick, const char *channel, const char *
 	}
 
 	// free list
-	for(size_t i = 0; i < actions_length; i++)
+	for(ssize_t i = 0; i < actions_length; i++)
 	{
 		free(actions[i]);
 	}
@@ -305,7 +305,7 @@ void do_http(int sock, const char *usernick, const char *channel, const char *ch
 		debugf("%s\n", "part0 strip() failure.");
 		exit(1);
 	}
-	for(size_t i = 0; i < parts_length; i++)
+	for(ssize_t i = 0; i < parts_length; i++)
 	{
 		free(parts[i]);
 	}
@@ -593,7 +593,7 @@ int main()
 					}
 
 					// free command
-					for(size_t i = 0; i < command_length; i++)
+					for(ssize_t i = 0; i < command_length; i++)
 					{
 						free(command[i]);
 					}
@@ -632,7 +632,7 @@ int main()
 		}
 
 		loop_end1:
-		for(size_t i = 0; i < parts_length; i++)
+		for(ssize_t i = 0; i < parts_length; i++)
 		{
 			free(parts[i]);
 		}
