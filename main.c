@@ -319,6 +319,7 @@ void do_http(int sock, const char *usernick, const char *channel, const char *ch
 int main()
 {
 	char *tmp;
+	char *tmp2;
 	char *line;
 	char *chat;
 	char **parts;
@@ -379,7 +380,7 @@ int main()
 			{
 				line_length = 5 * (strlen(config_user) + 1); // dynamic part
 				line_length = line_length + 11; // add our static part
-				line = (char*)malloc(line_length);
+				line = (char*) malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -424,7 +425,7 @@ int main()
 			{
 				line_length = strlen(config_channel) + 1; // dynamic part
 				line_length = line_length + 5; // add our static part
-				line = (char*)malloc(line_length);
+				line = (char*) malloc(line_length);
 				if(line == NULL)
 				{
 					debugf("%s\n", "malloc() memory allocation failure.");
@@ -531,25 +532,36 @@ int main()
 			debugf("%s\n", "PRIVMSG or NOTICE detected with '@' !");
 
 			// grab the second part and strip it
-			// since we have PRIVMSG or NOTICE, we can be assured that part1 exists.
-			part1 = strip(parts[1]);
-			if(part1 == NULL)
+
+			ssize_t i;
+			// ipv6 client situation, start at 4
+			if(strstr(line, ":IP") != NULL) { i = 4; }
+			// ipv4 starts at 1
+			else { i = 1; }
+
+			line_length = strlen(line) + 1;
+			tmp2 = (char*) malloc(line_length);
+			if(tmp2 == NULL)
 			{
-				debugf("%s\n", "part1 strip() failure.");
+				debugf("%s\n", "malloc() memory allocation failure.");
 				exit(1);
 			}
+			tmp2[0] = '\0';
 
-			// handle ipv6 client situation where part1 is not far enough into the string
-			if(parts_length > 3 && strstr(line, ":IP") != NULL)
+			while(i < parts_length)
 			{
-				free(part1);
-				part1 = strip(parts[4]);
-				if(part1 == NULL)
-				{
-					debugf("%s\n", "part1 strip() failure ipv6 case.");
-					exit(1);
-				}
+				tmp = strip(parts[i]);
+				strcat(tmp2, tmp);
+				free(tmp);
+				strcat(tmp2, ":");
+				i++;
 			}
+
+			// remove the extra : at the end
+			part1 = rtrim(tmp2, ":");
+			free(tmp2);
+
+			// part1 is now complete
 
 			// grab the usernick of whomever is talking
 			tmp = reverse(part0);
