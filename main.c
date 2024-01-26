@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2021, 2022 Robert Alex Marder (ram@robertmarder.com)
+ * Copyright (C) 2021, 2022, 2024 Robert Alex Marder (ram@robertmarder.com)
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -526,9 +526,10 @@ int main()
 		}
 
 		// finally, handle chat messages
-		if(strstr(part0, "PRIVMSG") != NULL || strstr(part0, "NOTICE") != NULL)
+		if(strstr(part0, "@") != NULL && (strstr(line, "PRIVMSG") != NULL || strstr(line, "NOTICE") != NULL))
 		{
-			debugf("%s\n", "PRIVMSG or NOTICE detected!");
+			debugf("%s\n", "PRIVMSG or NOTICE detected with '@' !");
+
 			// grab the second part and strip it
 			// since we have PRIVMSG or NOTICE, we can be assured that part1 exists.
 			part1 = strip(parts[1]);
@@ -537,7 +538,18 @@ int main()
 				debugf("%s\n", "part1 strip() failure.");
 				exit(1);
 			}
-			//printf("PART1: %s\n", part1);
+
+			// handle ipv6 client situation where part1 is not far enough into the string
+			if(parts_length > 3 && strstr(line, ":IP") != NULL)
+			{
+				free(part1);
+				part1 = strip(parts[4]);
+				if(part1 == NULL)
+				{
+					debugf("%s\n", "part1 strip() failure ipv6 case.");
+					exit(1);
+				}
+			}
 
 			// grab the usernick of whomever is talking
 			tmp = reverse(part0);
@@ -547,14 +559,19 @@ int main()
 			free(usernick);
 			usernick = tmp;
 
-			// this is safe to do here, even though it looks dangerous.
-			chat = strdup(strstr(line + 1, ":") + 1);
+			chat = strdup(part1);
 			if(chat == NULL)
 			{
 				debugf("%s\n", "Error: strdup() chat failure.");
 				exit(1);
 			}
 			printf("usernick: [%s] said [%s]\n", usernick, chat);
+
+			// rewrite ! to . so that eg "!action" becomes ".action"
+			if(part1[0] == '!')
+			{
+				part1[0] = '.';
+			}
 
 			if(part1[0] == '.')
 			{
